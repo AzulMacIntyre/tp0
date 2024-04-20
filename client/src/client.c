@@ -18,7 +18,7 @@ int main(void)
 
 	// Usando el logger creado previamente
 	// Escribi: "Hola! Soy un log"
-
+ //Probando si funcionaaa
 
 	/* ---------------- ARCHIVOS DE CONFIGURACION ---------------- */
 
