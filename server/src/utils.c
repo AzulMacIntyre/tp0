@@ -19,17 +19,18 @@ int iniciar_servidor(void)
 	getaddrinfo(NULL, PUERTO, &hints, &servinfo);
 
 	// Creamos el socket de escucha del servidor
-	int fd_escucha = socket(servinfo->ai_family,
+	socket_servidor = socket(servinfo->ai_family,
     	                    servinfo->ai_socktype,
         	                servinfo->ai_protocol);
 
 	// Asociamos el socket a un puerto
-	//bind(socket_servidor, servinfo->ai_addr, servinfo->ai_addrlen);
-	bind(fd_escucha, servinfo->ai_addr, servinfo->ai_addrlen);
+	//bind(fd_escucha, servinfo->ai_addr, servinfo->ai_addrlen);
+	bind(socket_servidor, servinfo->ai_addr, servinfo->ai_addrlen);
 
 	// Escuchamos las conexiones entrantes
-	//listen(socket_servidor, SOMAXCONN);
-	listen(fd_escucha, SOMAXCONN);
+	//listen(fd_escucha, SOMAXCONN);
+	listen(socket_servidor, SOMAXCONN);
+
 
 	freeaddrinfo(servinfo);
 	log_trace(logger, "Listo para escuchar a mi cliente");
@@ -43,7 +44,9 @@ int esperar_cliente(int socket_servidor)
 	//assert(!"no implementado!");
 
 	// Aceptamos un nuevo cliente
+	//int fd_conexion = accept(fd_escucha, NULL, NULL);
 	int socket_cliente = accept(socket_servidor, NULL, NULL);
+	
 	log_info(logger, "Se conecto un cliente!");
 
 	return socket_cliente;
@@ -76,7 +79,7 @@ void recibir_mensaje(int socket_cliente)
 {
 	int size;
 	char* buffer = recibir_buffer(&size, socket_cliente);
-	log_info(logger, "Me llego el mensaje %s", buffer);
+	log_info(logger, "Me llego el mensaje: %s", buffer);
 	free(buffer);
 }
 
